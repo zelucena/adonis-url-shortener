@@ -22,7 +22,6 @@ class UrlRepository {
             short = generator.generate({
                 length: 10,
                 numbers: true,
-                uppercase: false,
             });
         }
 

@@ -8,23 +8,27 @@ afterEach(async () => {
     await Database.raw(`delete from url where id > 0`);
 });
 
-test('get single url', async ({ client, assert }) => {
+test('get single url', async ({ client }) => {
     const urlRepository = new UrlRepository();
-    const { short } = await urlRepository.save({ long: 'https://www.wikipedia.com/', short: 'aBcDe' });
+    const { long, short } = await urlRepository.save({ long: 'https://www.wikipedia.com/', short: 'aBcDe' });
     const response = await client.get(`/url/shorts/${short}`).end();
-    if (response.error) {
-        console.log(response.error);
-    }
+
+    // faulty function
+    // response.assertRedirect(long);
     response.assertStatus(200);
-    assert.equal(response.body.short, short);
-})
+});
 
 test('get not-existent url', async ({ client }) => {
     const shortURL = "aBcDe";
     const response = await client.get(`/url/shorts/${shortURL}`).end();
 
     response.assertStatus(404);
-})
+    response.assertError(
+        {
+            message: 'URL not found',
+        }
+    );
+});
 
 test('post valid long url and short', async ({ client, assert }) => {
     const payload = {
@@ -33,17 +37,41 @@ test('post valid long url and short', async ({ client, assert }) => {
     };
 
     const response = await client.post(`/url/shorts/`).send(payload).end();
-    if (response.error) {
-        console.log(response.error);
-    }
     response.assertStatus(201);
     assert.equal(response.body.long, payload.long);
     assert.equal(response.body.short, payload.short);
-})
+});
 
-test('post with empty payload', async ({ client, assert }) => {
+test('post duplicate short', async ({ client, assert }) => {
+    const payload = {
+        long: "https://www.wikipedia.org/",
+        short: "aBcDe",
+    };
+
+    const urlRepository = new UrlRepository();
+    await urlRepository.save(payload);
+
+    const response = await client.post(`/url/shorts/`).send(payload).end();
+
+    response.assertStatus(400);
+
+    response.assertError([
+        {
+            field: 'short',
+            validation: 'notExists',
+            message: 'Short url is already in use',
+        }
+    ]);
+});
+
+test('post with empty payload', async ({ client }) => {
     const response = await client.post(`/url/shorts/`).send({}).end();
     response.assertStatus(400);
+    response.assertError([{
+        field: "long",
+        message: "Long url is required",
+        validation: "required",
+    }]);
 })
 
 test('post valid long url and empty short', async ({ client, assert }) => {
@@ -52,14 +80,11 @@ test('post valid long url and empty short', async ({ client, assert }) => {
     };
 
     const response = await client.post(`/url/shorts/`).send(payload).end();
-    if (response.error) {
-        console.log(response.error);
-    }
     response.assertStatus(201);
     assert.equal(response.body.long, payload.long);
     assert.isString(response.body.short);
     assert.equal(response.body.short.length, 10);
-})
+});
 
 test('post invalid format', async ({ client }) => {
     const payload = {
@@ -69,7 +94,29 @@ test('post invalid format', async ({ client }) => {
 
     const response = await client.post(`/url/shorts/`).send(payload).end();
     response.assertStatus(400);
-})
+    response.assertError([
+        {
+            message: "Long url is required",
+            field: "long",
+            "validation": "required",
+        },
+        {
+            message: "Long url should be a valid URL",
+            field: "long",
+            validation: "string",
+        },
+        {
+            message: "Long url should be a valid URL with no more than 2048 characters",
+            field: "long",
+            validation: "validUrl",
+        },
+        {
+            message: "Short url should be a valid URL",
+            field: "short",
+            validation: "string",
+        }
+    ]);
+});
 
 test('post invalid url > 2048 characters', async ({ client }) => {
     const payload = {
@@ -79,7 +126,14 @@ test('post invalid url > 2048 characters', async ({ client }) => {
 
     const response = await client.post(`/url/shorts/`).send(payload).end();
     response.assertStatus(400);
-})
+    response.assertError([
+        {
+            field: "long",
+            message: "Long url should be a valid URL with no more than 2048 characters",
+            validation: "validUrl",
+        },
+    ]);
+});
 
 test('post bad url format', async ({ client }) => {
     const payload = {
@@ -89,5 +143,12 @@ test('post bad url format', async ({ client }) => {
 
     const response = await client.post(`/url/shorts/`).send(payload).end();
     response.assertStatus(400);
-})
+    response.assertError([
+        {
+            field: "long",
+            message: "Long url should be a valid URL with no more than 2048 characters",
+            validation: "validUrl",
+        },
+    ]);
+});
 

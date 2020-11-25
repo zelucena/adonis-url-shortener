@@ -18,5 +18,5 @@
     "app/Validators/ged",
     "app/Repositories/ged"
   ],
-  "reporter": "lcov"
+  "reporter": "html"
 }

@@ -21,7 +21,10 @@ class UrlShortenerController {
                 return response.status(404).send({ message: 'URL not found' });
             }
 
-            return response.status(200).send(url.toJSON());
+            // sends default HTTP status 302 FOUND
+            response.redirect(url.long);
+
+            return response;
         } catch (e) {
             Logger.error('', e);
             return response.status(500).send({ messsage: 'There was an internal error. Your data could not be fetched' });
