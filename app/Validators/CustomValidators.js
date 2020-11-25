@@ -23,14 +23,22 @@ const validUrlFn = async (data, field, message) => {
 
 Validator.extend('validUrl', validUrlFn);
 
+/**
+ * Checkes whether a field already exists in the table.
+ * Optional: Pass a second field / value to ignore. Use this if patching an entry 
+ * usage: notExists:table_name|field_name|field_to_ignore|value_to_ignore
+ * This was adapted from the docs example
+ * @see https://adonisjs.com/docs/4.1/validator
+ * @param {*} data all data from request body
+ * @param {*} field field name
+ * @param {*} message Error message
+ * @param {*} args arguments passed during validation
+ * @param {*} get 
+ */
 const notExistsFn = async (data, field, message, args, get) => {
     const value = get(data, field);
-    // eslint-disable-next-line
     if (!value) {
-        //   /**
-        //    * skip validation if value is not defined. `required` rule
-        //    * should take care of it.
-        //    */
+        // let required handle if field is empty
         return;
     }
     const [table, column, fieldToFilter, valueToFilter, secondValue] = args;

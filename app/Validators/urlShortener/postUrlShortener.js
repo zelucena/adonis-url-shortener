@@ -1,6 +1,9 @@
 'use strict'
 
 class PostUrlShortener {
+    /**
+     * validates the resquest body
+     */
     get rules() {
         return {
             long: 'required|string|validUrl',
@@ -8,6 +11,9 @@ class PostUrlShortener {
         }
     }
 
+    /**
+     * applies cleansing before validating
+     */
     get sanitizationRules() {
         return {
             long: 'trim',
@@ -15,6 +21,9 @@ class PostUrlShortener {
         }
     }
 
+    /**
+     * returns all error messages
+     */
     get validateAll() {
         return true;
     }
