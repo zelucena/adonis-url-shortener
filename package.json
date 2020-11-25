@@ -1,18 +1,22 @@
 {
-  "name": "adonis-api-app",
-  "version": "4.1.0",
+  "name": "adonis-url-shortener",
+  "version": "1.0.0",
   "adonis-version": "4.1.0",
-  "description": "Adonisjs boilerplate for API server with pre-configured JWT",
+  "description": "Backend code challange using Node.js / postgresql",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node ace test"
+    "dev": "node server.js --dev",
+    "test": "node ace test",
+    "coverage": "nyc node ace test",
+    "docs": "npx adonis route:list"
   },
   "keywords": [
     "adonisjs",
-    "adonis-app"
+    "backend-challange",
+    "url-shortener"
   ],
-  "author": "",
+  "author": "José Lucena",
   "license": "UNLICENSED",
   "private": true,
   "dependencies": {
@@ -32,8 +36,7 @@
     "url-regex": "^5.0.0"
   },
   "devDependencies": {
-    "@adonisjs/cli": "^4.0.12",
-    "coveralls": "^3.1.0"
+    "@adonisjs/cli": "^4.0.12"
   },
   "autoload": {
     "App": "./app"

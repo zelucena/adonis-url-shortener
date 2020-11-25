@@ -26,28 +26,25 @@
 ## TESTING AND COVERAGE REPORT
 * run all tests
 ```
-npx adonis test
-```
-* run a particular a file
-```
-npx adonis test -f test/functional/urlShortner.spec.js
+npm run test
 ```
 * run all tests with coverage output
 ```
-npx nyc adonis test
+npm run coverage
 ```
 Open the file coverage/index.html in your browser to read full coverage report
 
 ## RUNNING
 Production
 ```
-npx adonis serve
-npx adonis serve --dev
+npm start
 ````
 Development
 ```
-npx adonis serve --dev
+npm run dev
 ````
 
 ## LIST endpoints
-`npx adonis route:list`
+```
+npm run docs
+```
