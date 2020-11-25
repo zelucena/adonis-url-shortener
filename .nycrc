@@ -1,0 +1,22 @@
+{
+  "all": false,
+  "check-coverage": true,
+  "exclude": [
+    "coverage/**",
+    "packages/*/test/**",
+    "test/**",
+    "test{,-*}.{js,cjs,mjs,ts}",
+    "**/*{.,-}test.{js,cjs,mjs,ts}",
+    "**/__tests__/**",
+    "node_modules",
+    "tmp",
+    "database",
+    "vowfile.js",
+    "app/Drivers",
+    "app/Validators/CustomSanitizor.js",
+    "app/Validators/CustomValidator.js",
+    "app/Validators/ged",
+    "app/Repositories/ged"
+  ],
+  "reporter": "lcov"
+}
