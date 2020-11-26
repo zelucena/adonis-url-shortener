@@ -33,6 +33,7 @@
     "generate-password": "^1.5.1",
     "nyc": "^15.1.0",
     "pg": "^8.5.1",
+    "pm2": "^4.5.0",
     "url-regex": "^5.0.0"
   },
   "devDependencies": {
