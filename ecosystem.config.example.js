@@ -3,9 +3,9 @@ module.exports = {
         name: "adonis-url-shortner",
         script: "./server.js",
         env: {
-            NODE_ENV: "development",
-            HOST: "127.0.0.1",
-            PORT: 3334,
+            NODE_ENV: "production",
+            HOST: "0.0.0.0",
+            PORT: 3333,
             APP_NAME: "adonis_url_shortner",
             APP_URL: "http://${HOST}:${PORT}",
             CACHE_VIEWS: "false",
@@ -17,8 +17,5 @@ module.exports = {
             DB_DATABASE: "adonis",
             HASH_DRIVER: "bcrypt",
         },
-        env_production: {
-            NODE_ENV: "production",
-        }
     }]
 }
