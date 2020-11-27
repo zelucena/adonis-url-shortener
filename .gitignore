@@ -7,7 +7,7 @@ tmp
 # Environment variables, never commit this file
 .env
 .env.testing
-ecosystem.config.example.js
+ecosystem.config.js
 
 # The development sqlite file
 database/*.sqlite

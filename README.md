@@ -11,9 +11,9 @@
 
 ## SETUP
 1. Create a database called adonis
-2. Copy and rename .env.example to .env
+2. Copy and rename ecosystem.config.example.js to ecosystem.config.example.js
 3. Copy and rename config.example to config
-4. Configure .env
+4. Configure ecosystem.config.js as fit
 5. Change configurations under config folder (optional)
 6. Install dependencies with `npm i`
 7. Run database migrations with `npx node ace migration:run`
@@ -37,7 +37,7 @@ Open the file coverage/index.html in your browser to read full coverage report
 ## RUNNING
 Production
 ```
-npm start
+pm2 start
 ````
 Development
 ```
