@@ -6,6 +6,7 @@ module.exports = {
             NODE_ENV: "production",
             HOST: "0.0.0.0",
             PORT: 3333,
+            PM2_SERVE_PORT: 3333,
             APP_NAME: "adonis_url_shortener",
             APP_URL: "http://${HOST}:${PORT}",
             CACHE_VIEWS: "false",
