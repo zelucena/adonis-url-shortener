@@ -3,6 +3,23 @@ const generator = require('generate-password');
 
 class UrlRepository {
     /**
+     * generates pseudo-random short and checkes whether it exists. If so, generate another
+     */
+    async _generateShort() {
+        const short = generator.generate({
+            length: 10,
+            numbers: true,
+        });
+
+        const url = await this.findByShort(short);
+
+        if (url) {
+            return this._generateShort();
+        }
+        return short;
+    }
+
+    /**
      * Fetch a single URL by its short
      * @param {string} short
      */
@@ -19,14 +36,11 @@ class UrlRepository {
         let { short, long } = data;
 
         if (!short) {
-            short = generator.generate({
-                length: 10,
-                numbers: true,
-            });
+            short = await this._generateShort();
         }
 
         const url = new Url();
-        url.merge({ long, short: short });
+        url.merge({ long, short });
         await url.save(data, trx);
         return url;
     }

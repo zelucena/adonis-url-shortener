@@ -11,7 +11,7 @@ afterEach(async () => {
 test('get single url', async ({ client }) => {
     const urlRepository = new UrlRepository();
     const { long, short } = await urlRepository.save({ long: 'https://www.wikipedia.com/', short: 'aBcDe' });
-    const response = await client.get(`/url/shorts/${short}`).end();
+    const response = await client.get(`/${short}`).end();
 
     // faulty function
     // response.assertRedirect(long);
@@ -20,7 +20,7 @@ test('get single url', async ({ client }) => {
 
 test('get not-existent url', async ({ client }) => {
     const shortURL = "aBcDe";
-    const response = await client.get(`/url/shorts/${shortURL}`).end();
+    const response = await client.get(`/${shortURL}`).end();
 
     response.assertStatus(404);
     response.assertError(
@@ -36,7 +36,7 @@ test('post valid long url and short', async ({ client, assert }) => {
         short: "aBcDe",
     };
 
-    const response = await client.post(`/url/shorts/`).send(payload).end();
+    const response = await client.post(`/`).send(payload).end();
     response.assertStatus(201);
     assert.equal(response.body.long, payload.long);
     assert.equal(response.body.short, payload.short);
@@ -51,7 +51,7 @@ test('post duplicate short', async ({ client, assert }) => {
     const urlRepository = new UrlRepository();
     await urlRepository.save(payload);
 
-    const response = await client.post(`/url/shorts/`).send(payload).end();
+    const response = await client.post(`/`).send(payload).end();
 
     response.assertStatus(400);
 
@@ -65,7 +65,7 @@ test('post duplicate short', async ({ client, assert }) => {
 });
 
 test('post with empty payload', async ({ client }) => {
-    const response = await client.post(`/url/shorts/`).send({}).end();
+    const response = await client.post(`/`).send({}).end();
     response.assertStatus(400);
     response.assertError([{
         field: "long",
@@ -79,7 +79,7 @@ test('post valid long url and empty short', async ({ client, assert }) => {
         long: "https://www.wikipedia.org/",
     };
 
-    const response = await client.post(`/url/shorts/`).send(payload).end();
+    const response = await client.post(`/`).send(payload).end();
     response.assertStatus(201);
     assert.equal(response.body.long, payload.long);
     assert.isString(response.body.short);
@@ -92,7 +92,7 @@ test('post invalid format', async ({ client }) => {
         short: [],
     };
 
-    const response = await client.post(`/url/shorts/`).send(payload).end();
+    const response = await client.post(`/`).send(payload).end();
     response.assertStatus(400);
     response.assertError([
         {
@@ -124,7 +124,7 @@ test('post invalid url > 2048 characters', async ({ client }) => {
         short: "aBcDe",
     };
 
-    const response = await client.post(`/url/shorts/`).send(payload).end();
+    const response = await client.post(`/`).send(payload).end();
     response.assertStatus(400);
     response.assertError([
         {
@@ -141,7 +141,7 @@ test('post bad url format', async ({ client }) => {
         short: "aBcDe",
     };
 
-    const response = await client.post(`/url/shorts/`).send(payload).end();
+    const response = await client.post(`/`).send(payload).end();
     response.assertStatus(400);
     response.assertError([
         {
