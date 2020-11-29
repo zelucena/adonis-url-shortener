@@ -66,3 +66,4 @@ npm run docs
 1. Trying to access a invalid route (404) is likely to give an error instead.
 2. Adonis test is not really able to check the redirect status 302 and which url it actually went. This seems faulty from Adonis.
 3. Adonis is tightly coupled with it dependencies and may face some issues (see 1) because it's authentication models are missing from database.
+4. It is highly recommended to further add Nginx as reverse proxy. This way the application could be accessed from port 80 and forwarded to 3000, which is served by PM2 serve.
