@@ -1,12 +1,12 @@
 module.exports = {
     apps: [{
-        name: "adonis-url-shortner",
+        name: "adonis-url-shortener",
         script: "./server.js",
         env: {
             NODE_ENV: "production",
             HOST: "0.0.0.0",
             PORT: 3333,
-            APP_NAME: "adonis_url_shortner",
+            APP_NAME: "adonis_url_shortener",
             APP_URL: "http://${HOST}:${PORT}",
             CACHE_VIEWS: "false",
             DB_CONNECTION: "pg",

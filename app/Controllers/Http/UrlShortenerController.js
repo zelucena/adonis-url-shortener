@@ -1,8 +1,8 @@
 'use strict'
 
 const UrlRepository = use('App/Repositories/UrlRepository');
-
 const Logger = use('Logger');
+const URI = require("uri-js");
 
 class UrlShortenerController {
     /**
@@ -21,8 +21,16 @@ class UrlShortenerController {
                 return response.status(404).send({ message: 'URL not found' });
             }
 
+            let uri = URI.parse(url.long);
+
+            // imply HTTP protocol if host can't be resolved properly
+            if (!uri.scheme) {
+                uri = URI.serialize({ scheme: 'http', host: url.long });
+            } else {
+                uri = URI.serialize(uri);
+            }
             // sends default HTTP status 302 FOUND
-            response.redirect(url.long);
+            response.redirect(uri);
 
             return response;
         } catch (e) {
@@ -41,6 +49,7 @@ class UrlShortenerController {
         const { short, long } = request.post();
         try {
             const urlRepository = new UrlRepository();
+
             const url = await urlRepository.save({ short, long });
 
             return response.status(201).send(url);

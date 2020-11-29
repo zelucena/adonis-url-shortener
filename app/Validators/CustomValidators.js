@@ -14,7 +14,7 @@ const validUrlFn = async (data, field, message) => {
         throw message;
     }
 
-    if (urlRegex({ exact: true, strict: true }).test(value)) {
+    if (urlRegex({ exact: true, strict: false }).test(value)) {
         return true;
     }
 

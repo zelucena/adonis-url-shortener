@@ -32,7 +32,7 @@ test('get not-existent url', async ({ client }) => {
 
 test('post valid long url and short', async ({ client, assert }) => {
     const payload = {
-        long: "https://www.wikipedia.org/",
+        long: "wikipedia.org",
         short: "aBcDe",
     };
 
@@ -137,7 +137,7 @@ test('post invalid url > 2048 characters', async ({ client }) => {
 
 test('post bad url format', async ({ client }) => {
     const payload = {
-        long: "wikipedia.org/Lorem",
+        long: "wikipediaorg/Lorem",
         short: "aBcDe",
     };
 

@@ -13,4 +13,4 @@
 |
 */
 
-require('./routes/urlShortner');
+require('./routes/urlShortener');
